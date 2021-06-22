@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC2039
+set -exuo pipefail
+
+# Install python
+apt-get install -y --no-install-recommends \
+  "python${APT_PYTHON_VERSION}" \
+  python3-distutils
+
+# Set python active
+update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
+
+# Install Pip
+curl https://bootstrap.pypa.io/get-pip.py | python

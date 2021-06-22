@@ -1,0 +1,39 @@
+name: Build and upload images to Docker hub
+
+on:
+  schedule:
+    # First day of every month, you know, for automatic updates etc.
+    - cron: "0 0 1 * *"
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_upload:
+    name: Build and upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build images
+        run: poetry run build
+
+      - name: Upload images
+        if: success()
+        run: |
+          echo "$PASSWORD" | docker login --username "$USERNAME" --password-stdin
+          poetry run upload
+        env:
+          USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
