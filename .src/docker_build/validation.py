@@ -2,7 +2,6 @@ from typing import Dict, List
 
 from docker_build.images import get_config, docker_tag
 from loguru import logger
-import settings
 
 
 def validate(images: Dict[str, List[str]]):
