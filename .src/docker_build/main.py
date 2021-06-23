@@ -1,5 +1,3 @@
-from typing import List
-
 import typer
 from docker_build.images import find_images, build_image, upload_tags
 from docker_build.validation import validate

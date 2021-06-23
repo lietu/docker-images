@@ -19,10 +19,9 @@ ENV \
 
 # Run docker/base-prepare.sh
 WORKDIR /src/
-COPY libs/bash /src/libs/bash
-COPY docker/base-prepare.sh /src/docker/base-prepare.sh
+COPY docker /src/docker
 RUN : \
  && set -exu \
  && bash /src/docker/base-prepare.sh \
- && rm -rf /src/docker /src/libs \
+ && rm -rf /src/docker \
  && :
