@@ -12,4 +12,4 @@ su "${USER}" -c "curl -sSL ${POETRY_URL} -o /tmp/get-poetry.py"
 su "${USER}" -c "python /tmp/get-poetry.py --version ${POETRY_VERSION}"
 
 chmod +x "${POETRY_HOME}"/bin/*
-bash /src/libs/bash/configure_poetry.sh
+bash /src/docker/scripts/configure_poetry.sh

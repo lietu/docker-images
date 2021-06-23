@@ -13,7 +13,7 @@
 # shellcheck disable=SC2039
 set -exuo pipefail
 
-bash /src/libs/bash/create_user.sh
+bash /src/docker/scripts/create_user.sh
 
 apt-get update
 apt-get install -y --no-install-recommends \
@@ -21,14 +21,14 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
 # This line is intentionally empty to preserve trailing \ in previous list
 
-bash /src/libs/bash/install_python.sh
-bash /src/libs/bash/prepare_workon_dir.sh
-bash /src/libs/bash/install_poetry.sh
+bash /src/docker/scripts/install_python.sh
+bash /src/docker/scripts/prepare_workon_dir.sh
+bash /src/docker/scripts/install_poetry.sh
 
 # Allow the next script to run as ${USER}
 chown -R "${USER}":"${GROUP}" /src
 
-bash /src/libs/bash/configure_poetry.sh
+bash /src/docker/scripts/configure_poetry.sh
 
 # Cleanup
 apt-get clean
