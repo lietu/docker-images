@@ -13,3 +13,13 @@ su "${USER}" -c "python /tmp/get-poetry.py --version ${POETRY_VERSION}"
 
 chmod +x "${POETRY_HOME}"/bin/*
 bash /src/docker/scripts/configure_poetry.sh
+
+# Remove useless old vendor packages
+cd /usr/local/poetry/lib/poetry/_vendor/
+KEEP="py3.8 py3.9 py3.10"
+for dir in py*; do
+  if [[ ! $KEEP =~ (^|[[:space:]])$dir($|[[:space:]]) ]]; then
+    rm -rf "${dir}"
+  fi
+done
+cd -
