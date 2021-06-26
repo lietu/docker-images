@@ -16,7 +16,7 @@ bash /src/docker/scripts/configure_poetry.sh
 
 # Remove useless old vendor packages
 cd /usr/local/poetry/lib/poetry/_vendor/
-KEEP="py3.8 py3.9 py3.10"
+KEEP="py${PYTHON_VERSION}"
 for dir in py*; do
   if [[ ! $KEEP =~ (^|[[:space:]])$dir($|[[:space:]]) ]]; then
     rm -rf "${dir}"
