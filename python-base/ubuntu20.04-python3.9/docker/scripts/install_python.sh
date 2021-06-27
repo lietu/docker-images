@@ -14,3 +14,7 @@ update-alternatives --install /usr/bin/python3 python3 "/usr/bin/python${PYTHON_
 
 # Install Pip
 curl https://bootstrap.pypa.io/get-pip.py | python
+
+# Clean up
+rm -rf /usr/lib/python3.8
+rm -rf /usr/bin/python3.8
