@@ -1,5 +1,11 @@
 import typer
-from docker_build.images import find_images, build_image, upload_tags
+from docker_build.images import (
+    find_images,
+    build_image,
+    upload_tags,
+    docker_image,
+    docker_tag,
+)
 from docker_build.validation import validate
 
 cli = typer.Typer()
@@ -21,3 +27,11 @@ def upload():
     for image, versions in images.items():
         for version in versions:
             upload_tags(image, version)
+
+
+@cli.command(help="List unique docker images managed by this tool")
+def list():
+    images = find_images()
+    for image, versions in images.items():
+        for version in versions:
+            print(docker_tag(image, version))

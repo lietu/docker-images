@@ -1,7 +1,6 @@
 FROM ubuntu:20.04
 
 ENV \
-    APT_PYTHON_VERSION="3.9" \
     DEBIAN_FRONTEND="noninteractive" \
     GID=1000 \
     GROUP="api" \
@@ -11,6 +10,7 @@ ENV \
     POETRY_HOME="/usr/local/poetry" \
     POETRY_VERSION="1.1.6" \
     PYTHONUNBUFFERED=1 \
+    PYTHON_VERSION="3.9" \
     TZ="UTC" \
     UID=1000 \
     USER="api" \

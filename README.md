@@ -3,6 +3,8 @@
 Builds your Docker images automatically, like magic. Good for handling common base images for all your projects, apps,
 whatever.
 
+This repository builds images to [hub.docker.com/u/lietu](https://hub.docker.com/u/lietu)
+
 ## How do you use this then?
 
 Well, we got 3 things you need to worry about:

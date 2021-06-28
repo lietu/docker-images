@@ -33,3 +33,5 @@ bash /src/docker/scripts/configure_poetry.sh
 # Cleanup
 apt-get clean
 rm -rf /var/lib/apt/lists/*
+rm -rf /root/.cache
+rm -rf /usr/share/doc
