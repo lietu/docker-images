@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from docker_build.images import get_config, docker_tag
+from docker_build.images import docker_tag, get_config
 from loguru import logger
 
 

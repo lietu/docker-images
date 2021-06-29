@@ -1,10 +1,10 @@
 import typer
 from docker_build.images import (
-    find_images,
     build_image,
-    upload_tags,
-    docker_image,
     docker_tag,
+    find_images,
+    sort_images,
+    upload_tags,
 )
 from docker_build.validation import validate
 
@@ -15,9 +15,8 @@ cli = typer.Typer()
 def build():
     images = find_images()
     validate(images)
-    for image, versions in images.items():
-        for version in versions:
-            build_image(image, version)
+    for image, version in sort_images(images):
+        build_image(image, version)
 
 
 @cli.command(help="Upload docker tags")
