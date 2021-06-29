@@ -36,6 +36,23 @@ def find_images() -> Dict[str, List[str]]:
     return result
 
 
+def sort_images(images_: Dict[str, List[str]]) -> List[List[str]]:
+    images = []
+    for image, versions in images_.items():
+        for version in versions:
+            images.append(f"{image}/{version}")
+    images.sort()
+    for img in conf.PRIORITY_BUILDS:
+        try:
+            images.remove(img)
+        except ValueError:
+            logger.error("{image} found in PRIORITY_BUILDS is incorrect", image=img)
+            raise
+
+    images = conf.PRIORITY_BUILDS + images
+    return [img.split("/", maxsplit=1) for img in images]
+
+
 def build_image(image: str, version: str):
     config = get_config(image, version)
     name = f"{image}/{version}"
@@ -49,11 +66,13 @@ def build_image(image: str, version: str):
         full_name = docker_tag(image, tag)
         cmd += ["-t", full_name]
 
+    # make it possible to reuse this image in other local builds
+    cmd += ["-t", docker_tag(image, tag=version, local=True)]
+
     run(cmd)
 
 
 def upload_tags(image: str, version: str):
-    config = get_config(image, version)
     name = f"{image}/{version}"
     logger.info("Uploading tags for {name}", name=name)
 
@@ -65,8 +84,10 @@ def docker_image(image: str) -> str:
     return f"{conf.DOCKER_USER}/{image}"
 
 
-def docker_tag(image: str, tag: str) -> str:
-    return f"{docker_image(image)}:{tag}"
+def docker_tag(image: str, tag: str, local: bool = False) -> str:
+    if not local:
+        return f"{docker_image(image)}:{tag}"
+    return f"{image}:{tag}"
 
 
 def get_config(image: str, version: str) -> Config:

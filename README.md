@@ -3,7 +3,7 @@
 Builds your Docker images automatically, like magic. Good for handling common base images for all your projects, apps,
 whatever.
 
-This repository builds images to [hub.docker.com/u/lietu](https://hub.docker.com/u/lietu)
+This repository builds images to [hub.docker.com/u/digitallivinginternational](https://hub.docker.com/u/digitallivinginternational)
 
 ## How do you use this then?
 
@@ -47,11 +47,3 @@ re-thinking or if you should just make a fork for yourself.
 ## If I use this it means you own my things, right?
 
 No. You are responsible for and own your own things. This code is licensed under the [BSD 3-clause license](LICENSE.md).
-
-# Financial support
-
-This project has been made possible thanks to [Cocreators](https://cocreators.ee) and [Lietu](https://lietu.net). You
-can help us continue our open source work by supporting us on [Buy me a coffee](https://www.buymeacoffee.com/cocreators)
-.
-
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/cocreators)
