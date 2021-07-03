@@ -43,6 +43,7 @@ jobs:
 
       - name: Trivy security scan
         run: |
+          set -exu
           IMAGES=$(poetry run list)
           for image in $IMAGES; do
             trivy image --skip-update --severity HIGH,CRITICAL --exit-code 1 "$image"

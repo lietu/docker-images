@@ -8,6 +8,8 @@ from docker_build.images import (
 )
 from docker_build.validation import validate
 
+from settings import conf
+
 cli = typer.Typer()
 
 
@@ -34,3 +36,8 @@ def list():
     for image, versions in images.items():
         for version in versions:
             print(docker_tag(image, version))
+
+
+@cli.command(help="Get the configured Docker username")
+def docker_username():
+    print(conf.DOCKER_USER)

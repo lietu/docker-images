@@ -20,6 +20,7 @@ loguru = "^0.5.3"
 build = "docker_build.main:build"
 upload = "docker_build.main:upload"
 list = "docker_build.main:list"
+docker_username = "docker_build.main:docker_username"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

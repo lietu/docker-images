@@ -33,8 +33,9 @@ You will need:
 - [Python](https://www.python.org/downloads/) >= 3.8 (maybe 3.7 or 3.6 works, but who cares, use at least 3.8)
 - [Poetry](https://python-poetry.org/docs/#installation)
 
-You could also just use the preconfigured GitHub workflows. If you do you'll just need to add `DOCKERHUB_USERNAME`
-and `DOCKERHUB_TOKEN` secrets ("token" is a [personal access token](https://docs.docker.com/docker-hub/access-tokens/)) that will be used to log into your account for upload.
+You could also just use the preconfigured GitHub workflows. If you do you'll just need to add a `DOCKERHUB_TOKEN`
+secret ("token" is a [personal access token](https://docs.docker.com/docker-hub/access-tokens/)) that will be used to
+log into your account for upload. This needs to be for the Docker hub user configured in `settings.py`.
 
 ## Contributions
 
