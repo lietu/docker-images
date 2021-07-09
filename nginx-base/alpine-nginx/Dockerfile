@@ -9,7 +9,7 @@ RUN set -exu \
  && echo "${PARSE_TEMPLATE_HASH}  /usr/bin/parse-template" | sha256sum -c \
  && chmod +x /usr/bin/parse-template \
  && apk del build-deps \
- && rm /etc/nginx/default.conf \
+ && rm /etc/nginx/conf.d/default.conf \
  && :
 
 ADD nginx.conf /etc/nginx/
