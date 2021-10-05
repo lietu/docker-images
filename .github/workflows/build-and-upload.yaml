@@ -32,8 +32,8 @@ jobs:
       - name: Upload images
         if: success()
         run: |
-          USERNAME=$(poetry run docker_username)
           echo "$PASSWORD" | docker login --username "$USERNAME" --password-stdin
           poetry run upload
         env:
           PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+          USERNAME: lietu
