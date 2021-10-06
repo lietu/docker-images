@@ -8,6 +8,7 @@ RUN set -exu \
  && curl -L -o /usr/bin/parse-template https://github.com/cocreators-ee/parse-template/releases/download/${PARSE_TEMPLATE_VERSION}/parse-template-linux-amd64 \
  && echo "${PARSE_TEMPLATE_HASH}  /usr/bin/parse-template" | sha256sum -c \
  && chmod +x /usr/bin/parse-template \
+ && mkdir -p /run/nginx/ \
  && apk del build-deps \
  && rm /etc/nginx/conf.d/default.conf \
  && :
