@@ -1,7 +1,4 @@
 tags:
-  - latest
-  - ubuntu-node
   - ubuntu-node16
-  - ubuntu20.04-node
-  - lts-node
+  - ubuntu20.04-node16
   - lts-node16
