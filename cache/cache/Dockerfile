@@ -16,5 +16,6 @@ EXPOSE 3141
 EXPOSE 3142
 
 COPY entrypoint.sh ./
+COPY apt-cacher-ng/* /etc/apt-cacher-ng/
 
 ENTRYPOINT ["bash", "entrypoint.sh"]
