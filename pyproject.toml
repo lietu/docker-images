@@ -7,12 +7,13 @@ license = "BSD"
 packages = [{ include = "docker_build", from = ".src" }]
 
 [tool.poetry.dependencies]
-python = "^3.6.1"
+python = "^3.7"
 typer = "^0.3.2"
 pytest = "^6.2.4"
 pydantic = "^1.8.2"
 PyYAML = "^5.4.1"
 loguru = "^0.5.3"
+humanize = "^4.0.0"
 
 [tool.poetry.dev-dependencies]
 
