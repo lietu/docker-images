@@ -3,6 +3,7 @@ import signal
 import sys
 from argparse import ArgumentParser
 from multiprocessing import Pool
+import os
 
 import typer
 
@@ -22,8 +23,9 @@ from settings import conf
 cli = typer.Typer()
 
 
-def set_logger(logger_):
+def init_pool(logger_, env):
     utils.logger = logger_
+    os.environ.update(env)
 
 
 @cli.command(help="Build docker images")
@@ -45,7 +47,7 @@ def build():
         utils.logger.add(sys.stderr, enqueue=True, level="INFO")
 
         original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-        with Pool(opts.parallel, initializer=set_logger, initargs=(utils.logger,)) as pool:
+        with Pool(opts.parallel, initializer=init_pool, initargs=(utils.logger, os.environ)) as pool:
             signal.signal(signal.SIGINT, original_sigint_handler)
 
             def _build_images(_images):
