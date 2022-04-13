@@ -34,9 +34,10 @@ def build():
 
     images = find_images()
     validate(images)
+    sorted_images = sort_images(images)
 
     if opts.parallel == 1:
-        for image, version in sort_images(images):
+        for image, version in sorted_images:
             build_image(image, version)
     else:
         utils.logger.info(f"Building images in {opts.parallel} threads")
@@ -47,19 +48,30 @@ def build():
         with Pool(opts.parallel, initializer=set_logger, initargs=(utils.logger,)) as pool:
             signal.signal(signal.SIGINT, original_sigint_handler)
 
-            try:
+            def _build_images(_images):
                 res = pool.starmap_async(build_image, [
-                    (image, version, False) for image, version in sort_images(images)
+                    (image, version, False) for image, version in _images
                 ])
                 while True:
                     try:
-                        res.get(3)
                         # Have a timeout to be non-blocking for signals
-                        # Returns when completed
-                        pool.close()
+                        res.get(3)
                         break
                     except multiprocessing.context.TimeoutError:
-                        continue
+                        pass
+
+            priority = [img.split("/", maxsplit=1) for img in conf.PRIORITY_BUILDS]
+            rest = [(image, version) for image, version in sorted_images if
+                    f"{image}/{version}" not in conf.PRIORITY_BUILDS]
+
+            try:
+                utils.logger.info("Building {c} priority images", c=len(priority))
+                _build_images(priority)
+
+                utils.logger.info("Building remaining {c} images", c=len(rest))
+                _build_images(rest)
+
+                pool.close()
             except KeyboardInterrupt:
                 utils.logger.error("Caught KeyboardInterrupt, terminating workers")
                 pool.terminate()
