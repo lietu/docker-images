@@ -1,4 +1,4 @@
-name: Build images
+name: Security scan for images
 
 on:
   pull_request:
