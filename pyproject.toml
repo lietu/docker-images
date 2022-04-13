@@ -18,9 +18,10 @@ loguru = "^0.5.3"
 
 [tool.poetry.scripts]
 build = "docker_build.main:build"
-upload = "docker_build.main:upload"
-list = "docker_build.main:list"
 docker_username = "docker_build.main:docker_username"
+list = "docker_build.main:list"
+scan = "docker_build.main:scan"
+upload = "docker_build.main:upload"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

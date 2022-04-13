@@ -23,6 +23,7 @@ Afterwards you can either set this up on your own build pipelines with the comma
 poetry install
 poetry run build
 poetry run upload
+poetry run scan
 ```
 
 ## But what does it require?
@@ -36,6 +37,8 @@ You will need:
 You could also just use the preconfigured GitHub workflows. If you do you'll just need to add a `DOCKERHUB_TOKEN`
 secret ("token" is a [personal access token](https://docs.docker.com/docker-hub/access-tokens/)) that will be used to
 log into your account for upload. This needs to be for the Docker hub user configured in `settings.py`.
+
+The `scan` command uses `trivy` which you will need installed on your system first.
 
 ## Contributions
 

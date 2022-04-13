@@ -30,7 +30,7 @@ jobs:
         run: poetry install
 
       - name: Build images
-        run: poetry run build
+        run: poetry run build --parallel 8
 
       - name: Upload images
         if: success()

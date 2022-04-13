@@ -1,11 +1,11 @@
+from loguru import logger
 from pathlib import Path
+from pydantic import BaseModel
 from typing import Dict, List
+from yaml import load
+from datetime import datetime
 
 from docker_build.utils import run
-from loguru import logger
-from pydantic import BaseModel
-from yaml import load
-
 from settings import conf
 
 try:
@@ -53,7 +53,7 @@ def sort_images(images_: Dict[str, List[str]]) -> List[List[str]]:
     return [img.split("/", maxsplit=1) for img in images]
 
 
-def build_image(image: str, version: str):
+def build_image(image: str, version: str, verbose=True):
     config = get_config(image, version)
     name = f"{image}/{version}"
     tag = docker_tag(image, version)
@@ -69,7 +69,11 @@ def build_image(image: str, version: str):
     # make it possible to reuse this image in other local builds
     cmd += ["-t", docker_tag(image, tag=version, local=True)]
 
-    run(cmd)
+    start = datetime.now()
+    run(cmd, verbose=verbose)
+    end = datetime.now()
+    if not verbose:
+        logger.info("Built {name} in {elapsed}", name=name, elapsed=end - start)
 
 
 def upload_tags(image: str, version: str):
@@ -95,3 +99,20 @@ def get_config(image: str, version: str) -> Config:
     config_text = Path(config_path).read_text(encoding="utf-8")
     config = load(config_text, Loader=Loader)
     return Config(**config)
+
+
+def update_scanner():
+    logger.info("Updating trivy database")
+    run(["trivy", "image", "--download-db-only"])
+
+
+def scan_image(image: str, version: str) -> bool:
+    try:
+        run([
+            "trivy", "image", "--skip-update", "--severity", "HIGH,CRITICAL", "--exit-code", "1",
+            f"{docker_image(image)}:{version}"
+        ])
+        return True
+    except Exception:
+        logger.error("{image}:{version} has vulnerabilities!", image=image, version=version)
+        return False
