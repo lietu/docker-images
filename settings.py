@@ -7,7 +7,10 @@ class Settings(BaseSettings):
     DOCKER_USER = "digitallivinginternational"  # Hopefully we'll get a shorter one
 
     # List of images that should be built beforehand
-    PRIORITY_BUILDS = ["python-base/ubuntu20.04-python3.9"]
+    PRIORITY_BUILDS = [
+        "python-base/ubuntu20.04-python3.9",
+        "python-base/ubuntu20.04-python3.9-nginx",
+    ]
 
 
 conf = Settings()

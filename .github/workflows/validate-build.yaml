@@ -29,22 +29,21 @@ jobs:
 
       - name: List images
         run: poetry run list
-
-      - name: Install Trivy
-        run: |
-          sudo apt-get install wget apt-transport-https gnupg lsb-release
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install trivy
-
-          # Update the DB so we can skip it later
-          trivy image --download-db-only
-
-      - name: Trivy security scan
-        run: |
-          set -exu
-          IMAGES=$(poetry run list)
-          for image in $IMAGES; do
-            trivy image --skip-update --severity HIGH,CRITICAL --exit-code 1 "$image"
-          done
+#      - name: Install Trivy
+#        run: |
+#          sudo apt-get install wget apt-transport-https gnupg lsb-release
+#          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+#          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+#          sudo apt-get update
+#          sudo apt-get install trivy
+#
+#          # Update the DB so we can skip it later
+#          trivy image --download-db-only
+#
+#      - name: Trivy security scan
+#        run: |
+#          set -exu
+#          IMAGES=$(poetry run list)
+#          for image in $IMAGES; do
+#            trivy image --skip-update --severity HIGH,CRITICAL --exit-code 1 "$image"
+#          done
