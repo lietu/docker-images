@@ -22,7 +22,5 @@ apt-get install -y --no-install-recommends \
 bash /src/docker/scripts/install_node.sh
 
 # Clean up
-apt-get remove -y \
-  curl
 apt-get clean
 rm -rf /var/lib/apt/lists/*
