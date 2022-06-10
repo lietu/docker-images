@@ -7,7 +7,11 @@ class Settings(BaseSettings):
     DOCKER_USER = "lietu"
 
     # List of images that should be built beforehand
-    PRIORITY_BUILDS = ["python-base/ubuntu20.04-python3.9", "nginx-base/alpine-nginx"]
+    PRIORITY_BUILDS = [
+        "python-base/ubuntu20.04-python3.9",
+        "python-base/ubuntu22.04-python3.10",
+        "nginx-base/alpine-nginx",
+    ]
 
 
 conf = Settings()
