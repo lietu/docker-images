@@ -7,7 +7,7 @@ on:
       - synchronize
   schedule:
     # First day of every month, you know, for automatic updates etc.
-    - cron: "0 1 1 * *"  # An hour after the normal builds
+    - cron: "0 1 1 * *" # An hour after the normal builds
   push:
     branches:
       - master

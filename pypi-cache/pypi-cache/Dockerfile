@@ -12,4 +12,3 @@ RUN set -exu \
     -out /etc/nginx/ssl/ssl.crt \
     -subj "/C=/ST=/L=/O=/OU=/CN=" \
  && apk del openssl \
-

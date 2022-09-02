@@ -3,11 +3,11 @@ from pathlib import Path
 from typing import Dict, List
 
 import humanize
+from docker_build.utils import run
 from loguru import logger
 from pydantic import BaseModel
 from yaml import load
 
-from docker_build.utils import run
 from settings import conf
 
 try:
@@ -75,7 +75,11 @@ def build_image(image: str, version: str, verbose=True):
     run(cmd, verbose=verbose)
     end = datetime.now()
     if not verbose:
-        logger.info("Built {name} in {elapsed}", name=name, elapsed=humanize.precisedelta(end - start))
+        logger.info(
+            "Built {name} in {elapsed}",
+            name=name,
+            elapsed=humanize.precisedelta(end - start),
+        )
 
 
 def upload_tags(image: str, version: str):
@@ -110,11 +114,21 @@ def update_scanner():
 
 def scan_image(image: str, version: str) -> bool:
     try:
-        run([
-            "trivy", "image", "--skip-update", "--severity", "HIGH,CRITICAL", "--exit-code", "1",
-            f"{docker_image(image)}:{version}"
-        ])
+        run(
+            [
+                "trivy",
+                "image",
+                "--skip-update",
+                "--severity",
+                "HIGH,CRITICAL",
+                "--exit-code",
+                "1",
+                f"{docker_image(image)}:{version}",
+            ]
+        )
         return True
     except Exception:
-        logger.error("{image}:{version} has vulnerabilities!", image=image, version=version)
+        logger.error(
+            "{image}:{version} has vulnerabilities!", image=image, version=version
+        )
         return False
