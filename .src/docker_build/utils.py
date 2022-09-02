@@ -1,4 +1,4 @@
-from subprocess import PIPE, STDOUT, check_call
+from subprocess import PIPE, STDOUT, check_call  # nosec
 from subprocess import run as sp_run  # nosec
 from typing import List
 
