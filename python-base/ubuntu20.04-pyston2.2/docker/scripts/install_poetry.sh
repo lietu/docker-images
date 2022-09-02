@@ -3,7 +3,7 @@
 # shellcheck disable=SC2039
 set -exuo pipefail
 
-POETRY_URL="https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py"
+POETRY_URL="https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/get-poetry.py"
 
 mkdir "${POETRY_HOME}"
 chown -R "${USER}":"${GROUP}" "${POETRY_HOME}"
