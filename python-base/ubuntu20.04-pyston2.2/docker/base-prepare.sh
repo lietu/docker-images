@@ -37,7 +37,11 @@ chown -R "${USER}":"${GROUP}" /src
 bash /src/docker/scripts/configure_poetry.sh
 
 # Cleanup
-apt-get purge -y cargo
+apt-get purge -y \
+  cargo \
+  libffi-dev \
+  libssl-dev \
+  ""
 rm -rf "/home/${USER}/.cargo"
 apt-get clean
 rm -rf /var/lib/apt/lists/*
