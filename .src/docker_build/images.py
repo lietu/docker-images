@@ -126,6 +126,8 @@ def scan_image(image: str, version: str) -> bool:
                 "HIGH,CRITICAL",
                 "--exit-code",
                 "1",
+                "--timeout",
+                "7m",
                 f"{docker_image(image)}:{version}",
             ]
         )
