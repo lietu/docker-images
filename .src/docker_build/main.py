@@ -1,23 +1,23 @@
 import multiprocessing.context
+import os
 import signal
 import sys
 from argparse import ArgumentParser
 from multiprocessing import Pool
-import os
-
-import typer
 
 import docker_build.utils as utils
+import typer
 from docker_build.images import (
     build_image,
     docker_tag,
     find_images,
-    sort_images,
-    upload_tags,
-    update_scanner,
     scan_image,
+    sort_images,
+    update_scanner,
+    upload_tags,
 )
 from docker_build.validation import validate
+
 from settings import conf
 
 cli = typer.Typer()
@@ -47,13 +47,15 @@ def build():
         utils.logger.add(sys.stderr, enqueue=True, level="INFO")
 
         original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-        with Pool(opts.parallel, initializer=init_pool, initargs=(utils.logger, os.environ)) as pool:
+        with Pool(
+            opts.parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
+        ) as pool:
             signal.signal(signal.SIGINT, original_sigint_handler)
 
             def _build_images(_images):
-                res = pool.starmap_async(build_image, [
-                    (image, version, False) for image, version in _images
-                ])
+                res = pool.starmap_async(
+                    build_image, [(image, version, False) for image, version in _images]
+                )
                 while True:
                     try:
                         # Have a timeout to be non-blocking for signals
@@ -63,8 +65,11 @@ def build():
                         pass
 
             priority = [img.split("/", maxsplit=1) for img in conf.PRIORITY_BUILDS]
-            rest = [(image, version) for image, version in sorted_images if
-                    f"{image}/{version}" not in conf.PRIORITY_BUILDS]
+            rest = [
+                (image, version)
+                for image, version in sorted_images
+                if f"{image}/{version}" not in conf.PRIORITY_BUILDS
+            ]
 
             try:
                 utils.logger.info("Building {c} priority images", c=len(priority))

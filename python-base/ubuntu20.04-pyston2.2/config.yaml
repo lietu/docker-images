@@ -3,9 +3,9 @@ tags:
   - ubuntu20.04-pyston
   - lts-pyston
   - ubuntu-pyston2.2
-  - pyston-poetry1.1.6
-  - lts-pyston-poetry1.1.6
-  - ubuntu-pyston-poetry1.1.6
-  - ubuntu-pyston2.2-poetry1.1.6
-  - ubuntu20.04-pyston-poetry1.1.6
-  - ubuntu20.04-pyston2.2-poetry1.1.6
+  - pyston-poetry1.2.0
+  - lts-pyston-poetry1.2.0
+  - ubuntu-pyston-poetry1.2.0
+  - ubuntu-pyston2.2-poetry1.2.0
+  - ubuntu20.04-pyston-poetry1.2.0
+  - ubuntu20.04-pyston2.2-poetry1.2.0
