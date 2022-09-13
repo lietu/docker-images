@@ -4,9 +4,9 @@ tags:
   - ubuntu20.04-python
   - lts-python
   - ubuntu-python3.9
-  - poetry1.1.6
-  - lts-poetry1.1.6
-  - ubuntu-python-poetry1.1.6
-  - ubuntu-python3.9-poetry1.1.6
-  - ubuntu20.04-python-poetry1.1.6
-  - ubuntu20.04-python3.9-poetry1.1.6
+  - poetry1.2.0
+  - lts-poetry1.2.0
+  - ubuntu-python-poetry1.2.0
+  - ubuntu-python3.9-poetry1.2.0
+  - ubuntu20.04-python-poetry1.2.0
+  - ubuntu20.04-python3.9-poetry1.2.0

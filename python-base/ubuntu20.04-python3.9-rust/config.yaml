@@ -3,9 +3,9 @@ tags:
   - ubuntu20.04-python-rust
   - lts-python-rust
   - ubuntu-python3.9-rust
-  - poetry1.1.6-rust
-  - lts-poetry1.1.6-rust
-  - ubuntu-python-poetry1.1.6-rust
-  - ubuntu-python3.9-poetry1.1.6-rust
-  - ubuntu20.04-python-poetry1.1.6-rust
-  - ubuntu20.04-python3.9-poetry1.1.6-rust
+  - poetry1.2.0-rust
+  - lts-poetry1.2.0-rust
+  - ubuntu-python-poetry1.2.0-rust
+  - ubuntu-python3.9-poetry1.2.0-rust
+  - ubuntu20.04-python-poetry1.2.0-rust
+  - ubuntu20.04-python3.9-poetry1.2.0-rust
