@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import humanize
 from docker_build.utils import run
@@ -55,7 +55,7 @@ def sort_images(images_: Dict[str, List[str]]) -> List[List[str]]:
     return [img.split("/", maxsplit=1) for img in images]
 
 
-def build_image(image: str, version: str, verbose=True):
+def build_image(image: str, version: str, verbose=True, platform: Optional[str] = None):
     config = get_config(image, version)
     name = f"{image}/{version}"
     tag = docker_tag(image, version)
@@ -70,6 +70,9 @@ def build_image(image: str, version: str, verbose=True):
 
     # make it possible to reuse this image in other local builds
     cmd += ["-t", docker_tag(image, tag=version, local=True)]
+
+    if platform:
+        cmd += ["--platform", platform]
 
     start = datetime.now()
     run(cmd, verbose=verbose)
