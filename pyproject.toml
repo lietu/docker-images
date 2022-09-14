@@ -18,11 +18,11 @@ humanize = "^4.3.0"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-build = "docker_build.main:build_cli"
-docker_username = "docker_build.main:docker_username_cli"
-list = "docker_build.main:list_cli"
-scan = "docker_build.main:scan_cli"
-upload = "docker_build.main:upload_cli"
+build = "docker_build.main:build"
+docker_username = "docker_build.main:docker_username"
+list = "docker_build.main:list"
+scan = "docker_build.main:scan"
+upload = "docker_build.main:upload"
 
 [tool.skjold]
 report_only = false
