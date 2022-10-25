@@ -1,0 +1,6 @@
+ignore:
+  CVE-2022-42969:
+  - expires: 2023-01-01T00:00:00+0000
+    package: py
+    reason: The >1.11.0 version that likely should fix it has not yet been released.
+version: '1.1'
