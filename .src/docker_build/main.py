@@ -110,7 +110,7 @@ def _scan():
     update_scanner()
     images = find_images()
     vuln_images = []
-    for image, versions in images.items():
+    for image, versions in sorted(images.items()):
         for version in versions:
             if not scan_image(image, version):
                 vuln_images.append(docker_tag(image, version))

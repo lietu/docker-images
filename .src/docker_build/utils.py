@@ -5,12 +5,12 @@ from typing import List
 from loguru import logger
 
 
-def run(cmd: List[str], verbose=True):
+def run(cmd: List[str], verbose=True, cwd=None):
     logger.debug("Executing: {cmd}", cmd=" ".join(cmd))
     if verbose:
-        check_call(cmd)
+        check_call(cmd, cwd=cwd)
     else:
-        result = sp_run(cmd, stdout=PIPE, stderr=STDOUT)
+        result = sp_run(cmd, stdout=PIPE, stderr=STDOUT, cwd=cwd)
         if result.returncode > 0:
             logger.error(
                 "{cmd} exited with code {code}",

@@ -129,7 +129,8 @@ def scan_image(image: str, version: str) -> bool:
                 "--timeout",
                 "7m",
                 f"{docker_image(image)}:{version}",
-            ]
+            ],
+            cwd=f"{image}/{version}"
         )
         return True
     except Exception:
