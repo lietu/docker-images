@@ -26,6 +26,30 @@ poetry run upload
 poetry run scan
 ```
 
+If you have images other images depend on, check out the `settings.PRIORITY_BUILDS` option. Each list within it gets assigned a priority and can be built in parallel with `--parallel` argument, the rest of the images will then get built after everything in the `PRIORITY_BUILDS`.
+
+```python
+# Simple priority to a couple of images
+PRIORITY_BUILDS = [
+   "ubuntu-base/20.04",
+   "ubuntu-base/22.04",
+]
+```
+
+```python
+# Tiered priorities of things that depend on earlier priorities
+PRIORITY_BUILDS = [
+  [
+      "ubuntu-base/20.04",
+      "ubuntu-base/22.04",
+  ],
+  [
+      "python-base/ubuntu20.04-python3.9",
+      "python-base/ubuntu22.04-python3.10",
+  ]
+]
+```
+
 ## But what does it require?
 
 You will need:

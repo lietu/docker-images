@@ -41,7 +41,7 @@ def init_pool(logger_, env):
 
 @build.command(help="Build docker images")
 def _build(
-    parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
+        parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
 ):
     platform = platform.value if platform else None
     images = find_images()
@@ -49,16 +49,17 @@ def _build(
     sorted_images = sort_images(images)
 
     if parallel == 1:
-        for image, version in sorted_images:
+        images = [img_conf.image for img_conf in sorted_images]
+        for image, version in images:
             build_image(image, version, platform=platform)
     else:
-        utils.logger.info(f"Building images in {parallel} threads")
+        utils.logger.info(f"Building {len(sorted_images)} images in {parallel} threads")
         utils.logger.remove()
         utils.logger.add(sys.stderr, enqueue=True, level="INFO")
 
         original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
         with Pool(
-            parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
+                parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
         ) as pool:
             signal.signal(signal.SIGINT, original_sigint_handler)
 
@@ -75,25 +76,19 @@ def _build(
                     except multiprocessing.context.TimeoutError:
                         pass
 
-            priority = [img.split("/", maxsplit=1) for img in conf.PRIORITY_BUILDS]
-            rest = [
-                (image, version)
-                for image, version in sorted_images
-                if f"{image}/{version}" not in conf.PRIORITY_BUILDS
-            ]
+            max_prio = max(ic.priority for ic in sorted_images)
 
-            try:
-                utils.logger.info("Building {c} priority images", c=len(priority))
-                _build_images(priority)
+            for prio in range(1, max_prio + 1):
+                images = [img_conf.image for img_conf in sorted_images if img_conf.priority == prio]
+                try:
+                    utils.logger.info("Building {c} priority {prio} images with up to {parallel} threads", c=len(images), prio=prio, parallel=parallel)
+                    _build_images(images)
+                except KeyboardInterrupt:
+                    utils.logger.error("Caught KeyboardInterrupt, terminating workers")
+                    pool.terminate()
+                    raise
 
-                utils.logger.info("Building remaining {c} images", c=len(rest))
-                _build_images(rest)
-
-                pool.close()
-            except KeyboardInterrupt:
-                utils.logger.error("Caught KeyboardInterrupt, terminating workers")
-                pool.terminate()
-                raise
+            pool.close()
 
 
 @upload.command(help="Upload docker tags")
