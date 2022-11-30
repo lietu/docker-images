@@ -9,6 +9,9 @@ on:
     branches:
       - master
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   build_and_upload:
     name: Build and upload
@@ -28,7 +31,7 @@ jobs:
         run: poetry install
 
       - name: Build images
-        run: poetry run build
+        run: poetry run build --parallel 8
 
       - name: Upload images
         if: success()

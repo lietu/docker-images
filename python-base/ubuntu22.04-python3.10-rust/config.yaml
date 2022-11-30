@@ -1,0 +1,11 @@
+tags:
+  - ubuntu-python-rust
+  - ubuntu22.04-python-rust
+  - lts-python-rust
+  - ubuntu-python3.10-rust
+  - poetry1.2.0-rust
+  - lts-poetry1.2.0-rust
+  - ubuntu-python-poetry1.2.0-rust
+  - ubuntu-python3.10-poetry1.2.0-rust
+  - ubuntu22.04-python-poetry1.2.0-rust
+  - ubuntu22.04-python3.10-poetry1.2.0-rust

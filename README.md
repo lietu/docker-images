@@ -23,6 +23,31 @@ Afterwards you can either set this up on your own build pipelines with the comma
 poetry install
 poetry run build
 poetry run upload
+poetry run scan
+```
+
+If you have images other images depend on, check out the `settings.PRIORITY_BUILDS` option. Each list within it gets assigned a priority and can be built in parallel with `--parallel` argument, the rest of the images will then get built after everything in the `PRIORITY_BUILDS`.
+
+```python
+# Simple priority to a couple of images
+PRIORITY_BUILDS = [
+   "ubuntu-base/20.04",
+   "ubuntu-base/22.04",
+]
+```
+
+```python
+# Tiered priorities of things that depend on earlier priorities
+PRIORITY_BUILDS = [
+  [
+      "ubuntu-base/20.04",
+      "ubuntu-base/22.04",
+  ],
+  [
+      "python-base/ubuntu20.04-python3.9",
+      "python-base/ubuntu22.04-python3.10",
+  ]
+]
 ```
 
 ## But what does it require?
@@ -36,6 +61,8 @@ You will need:
 You could also just use the preconfigured GitHub workflows. If you do you'll just need to add a `DOCKERHUB_TOKEN`
 secret ("token" is a [personal access token](https://docs.docker.com/docker-hub/access-tokens/)) that will be used to
 log into your account for upload. This needs to be for the Docker hub user configured in `settings.py`.
+
+The `scan` command uses `trivy` which you will need installed on your system first.
 
 ## Contributions
 

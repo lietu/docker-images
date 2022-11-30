@@ -1,0 +1,48 @@
+name: GitHub actions keepalive
+
+on:
+  schedule:
+    # Once a day
+    - cron: "0 0 * * *"
+  push:
+    paths:
+      - .github/workflows/keepalive.yaml
+
+jobs:
+  keepalive:
+    name: Keepalive
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare git
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Update if necessary
+        run: |
+          LAST_COMMIT=$(git log -1 --pretty=format:"%cd" --date=format:"%Y-%m-%d")
+          OK_AFTER=$(date --date="14 day ago" +%Y-%m-%d)
+
+          if [[ "${LAST_COMMIT}" < "${OK_AFTER}" ]]; then
+            echo "Last commit ${LAST_COMMIT} is too long ago, trying to update repo."
+
+            while [[ true ]]; do
+              # Reset repo state
+              git checkout -f master
+              git pull
+
+              date +%Y-%m-%dT%H:%M:%S > .github/keepalive.txt
+              git add .github/keepalive.txt
+              git commit -m "Keeping GitHub actions alive"
+              git push origin master
+
+              if [[ "$?" == "0" ]]; then
+                echo "Keepalive commit successful."
+                break
+              else
+                sleep 1
+              fi
+            done
+          fi
