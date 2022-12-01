@@ -16,6 +16,7 @@ set -exuo pipefail
 bash /src/docker/scripts/create_user.sh
 
 apt-get update
+apt-get upgrade -y
 apt-get install -y --no-install-recommends \
   curl \
   ca-certificates \

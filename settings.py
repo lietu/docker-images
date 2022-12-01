@@ -8,8 +8,9 @@ class Settings(BaseSettings):
 
     # List of images that should be built beforehand
     PRIORITY_BUILDS = [
-        "python-base/ubuntu20.04-python3.9",
-        "python-base/ubuntu20.04-python3.9-nginx",
+        ["ubuntu-base/20.04", "nginx-base/alpine-nginx"],
+        ["python-base/ubuntu20.04-python3.9"],
+        ["python-base/ubuntu20.04-python3.9-nginx"],
     ]
 
 

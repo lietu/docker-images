@@ -1,8 +1,5 @@
 tags:
-  - latest
-  - ubuntu-python
   - ubuntu20.04-python
-  - lts-python
   - ubuntu-python3.9
   - poetry1.2.2
   - lts-poetry1.2.2

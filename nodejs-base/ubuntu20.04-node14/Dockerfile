@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM digitallivinginternational/ubuntu-base:20.04
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \

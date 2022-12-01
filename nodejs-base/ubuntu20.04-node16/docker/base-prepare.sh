@@ -16,33 +16,17 @@ set -exuo pipefail
 bash /src/docker/scripts/create_user.sh
 
 apt-get update
-
-# build-essential will be essential with pyston
 apt-get install -y --no-install-recommends \
   curl \
   ca-certificates \
-  build-essential \
-  libffi-dev \
-  libssl-dev \
-  cargo \
-  ""
+# This line is intentionally empty to preserve trailing \ in previous list
 
-bash /src/docker/scripts/install_pyston.sh
-bash /src/docker/scripts/prepare_workon_dir.sh
-bash /src/docker/scripts/install_poetry.sh
+bash /src/docker/scripts/install_node.sh
 
 # Allow the next script to run as ${USER}
 chown -R "${USER}":"${GROUP}" /src
 
-bash /src/docker/scripts/configure_poetry.sh
-
 # Cleanup
-apt-get purge -y \
-  cargo \
-  libffi-dev \
-  libssl-dev \
-  ""
-rm -rf "/home/${USER}/.cargo"
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 rm -rf /root/.cache

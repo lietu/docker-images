@@ -1,10 +1,19 @@
-name: Build images
+name: Security scan for images
 
 on:
   pull_request:
     types:
       - opened
       - synchronize
+  schedule:
+    # First day of every month, you know, for automatic updates etc.
+    - cron: "0 1 1 * *" # An hour after the normal builds
+  push:
+    branches:
+      - master
+
+env:
+  DOCKER_BUILDKIT: 1
 
 jobs:
   build:
@@ -25,7 +34,7 @@ jobs:
         run: poetry install
 
       - name: Build images
-        run: poetry run build
+        run: poetry run build --parallel 8
 
       - name: List images
         run: poetry run list
@@ -42,9 +51,4 @@ jobs:
           trivy image --download-db-only
 
       - name: Trivy security scan
-        run: |
-          set -exu
-          IMAGES=$(poetry run list)
-          for image in $IMAGES; do
-            trivy image --skip-update --severity HIGH,CRITICAL --exit-code 1 --timeout 7m "$image"
-          done
+        run: poetry run scan
