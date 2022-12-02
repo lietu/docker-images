@@ -41,7 +41,7 @@ def init_pool(logger_, env):
 
 @build.command(help="Build docker images")
 def _build(
-        parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
+    parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
 ):
     platform = platform.value if platform else None
     images = find_images()
@@ -59,7 +59,7 @@ def _build(
 
         original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
         with Pool(
-                parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
+            parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
         ) as pool:
             signal.signal(signal.SIGINT, original_sigint_handler)
 
@@ -79,9 +79,18 @@ def _build(
             max_prio = max(ic.priority for ic in sorted_images)
 
             for prio in range(1, max_prio + 1):
-                images = [img_conf.image for img_conf in sorted_images if img_conf.priority == prio]
+                images = [
+                    img_conf.image
+                    for img_conf in sorted_images
+                    if img_conf.priority == prio
+                ]
                 try:
-                    utils.logger.info("Building {c} priority {prio} images with up to {parallel} threads", c=len(images), prio=prio, parallel=parallel)
+                    utils.logger.info(
+                        "Building {c} priority {prio} images with up to {parallel} threads",
+                        c=len(images),
+                        prio=prio,
+                        parallel=parallel,
+                    )
                     _build_images(images)
                 except KeyboardInterrupt:
                     utils.logger.error("Caught KeyboardInterrupt, terminating workers")
