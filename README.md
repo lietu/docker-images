@@ -55,7 +55,7 @@ PRIORITY_BUILDS = [
 You will need:
 
 - [Docker CLI](https://docs.docker.com/get-docker/) >= 20.10.0 (we use `docker push --all-tags` to save some time)
-- [Python](https://www.python.org/downloads/) >= 3.8 (maybe 3.7 works, but who cares, use at least 3.8)
+- [Python](https://www.python.org/downloads/) >= 3.9
 - [Poetry](https://python-poetry.org/docs/#installation)
 
 You could also just use the preconfigured GitHub workflows. If you do you'll just need to add a `DOCKERHUB_TOKEN`
