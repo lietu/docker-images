@@ -3,11 +3,11 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import humanize
+from docker_build.utils import run
 from loguru import logger
 from pydantic import BaseModel
 from yaml import load
 
-from docker_build.utils import run
 from settings import conf
 
 try:
@@ -45,7 +45,7 @@ class ImageConf:
     def __init__(self, priority: int, image: list[str]):
         self.priority = priority
         self.image = image
-        
+
     def __repr__(self):
         return f"<{':'.join(self.image)} @ {self.priority} prio>"
 
@@ -61,14 +61,18 @@ def sort_images(images_: Dict[str, List[str]]) -> List[ImageConf]:
             try:
                 images.remove(image_or_list)
             except ValueError:
-                logger.error("{image} found in PRIORITY_BUILDS is incorrect", image=image_or_list)
+                logger.error(
+                    "{image} found in PRIORITY_BUILDS is incorrect", image=image_or_list
+                )
                 raise
         else:
             for _img in image_or_list:
                 try:
                     images.remove(_img)
                 except ValueError:
-                    logger.error("{image} found in PRIORITY_BUILDS is incorrect", image=_img)
+                    logger.error(
+                        "{image} found in PRIORITY_BUILDS is incorrect", image=_img
+                    )
                     raise
 
     priority = 1
@@ -76,20 +80,32 @@ def sort_images(images_: Dict[str, List[str]]) -> List[ImageConf]:
     for image_or_list in conf.PRIORITY_BUILDS:
         if isinstance(image_or_list, str):
             try:
-                result.append(ImageConf(priority=priority, image=image_or_list.split("/", maxsplit=1)))
+                result.append(
+                    ImageConf(
+                        priority=priority, image=image_or_list.split("/", maxsplit=1)
+                    )
+                )
             except ValueError:
-                logger.error("{image} found in PRIORITY_BUILDS is incorrect", image=image_or_list)
+                logger.error(
+                    "{image} found in PRIORITY_BUILDS is incorrect", image=image_or_list
+                )
                 raise
         else:
             for _img in image_or_list:
                 try:
-                    result.append(ImageConf(priority=priority, image=_img.split("/", maxsplit=1)))
+                    result.append(
+                        ImageConf(priority=priority, image=_img.split("/", maxsplit=1))
+                    )
                 except ValueError:
-                    logger.error("{image} found in PRIORITY_BUILDS is incorrect", image=_img)
+                    logger.error(
+                        "{image} found in PRIORITY_BUILDS is incorrect", image=_img
+                    )
                     raise
         priority += 1
 
-    result += [ImageConf(priority=priority, image=img.split("/", maxsplit=1)) for img in images]
+    result += [
+        ImageConf(priority=priority, image=img.split("/", maxsplit=1)) for img in images
+    ]
 
     return result
 
@@ -169,7 +185,7 @@ def scan_image(image: str, version: str) -> bool:
                 "7m",
                 f"{docker_image(image)}:{version}",
             ],
-            cwd=f"{image}/{version}"
+            cwd=f"{image}/{version}",
         )
         return True
     except Exception:
