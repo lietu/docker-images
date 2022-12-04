@@ -1,0 +1,12 @@
+tags:
+  - latest
+  - ubuntu-python
+  - ubuntu22.04-python
+  - lts-python
+  - ubuntu-python3.11
+  - poetry1.2.0
+  - lts-poetry1.2.0
+  - ubuntu-python-poetry1.2.0
+  - ubuntu-python3.11-poetry1.2.0
+  - ubuntu22.04-python-poetry1.2.0
+  - ubuntu22.04-python3.11-poetry1.2.0
