@@ -3,14 +3,14 @@
 Builds your Docker images automatically, like magic. Good for handling common base images for all your projects, apps,
 whatever.
 
-This repository builds images to [hub.docker.com/u/lietu](https://hub.docker.com/u/lietu)
+This repository builds images to [github.com/lietu?tab=packages](https://github.com/lietu?tab=packages) or `ghcr.io/lietu/...`.
 
 ## How do you use this then?
 
 Well, we got 3 things you need to worry about:
 
 1. General configuration in `settings.py`: Basically you need to set up your Docker hub username there to prefix all
-   built images with the right name
+   built images with the right name. If you want to use e.g. [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) you need to change your username to include the domain prefix, e.g. `ghcr.io/lietu` instead of `lietu`.
 2. Images and versions: First level of subdirectories in this repo is "images", as in the repository
    names (`username/<repository>`) for Docker hub. The subdirectories in that defines the "versions" - basically default
    tags for things to be built for that repository.
