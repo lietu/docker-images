@@ -140,12 +140,21 @@ def build_image(image: str, version: str, verbose=True, platform: Optional[str] 
         )
 
 
-def upload_tags(image: str, version: str):
+def upload_tags(image: str, version: str, verbose=True):
     name = f"{image}/{version}"
     logger.info("Uploading tags for {name}", name=name)
 
     # --all-tags added in Docker 20.10.0
-    run(["docker", "push", "--all-tags", docker_image(image)])
+    start = datetime.now()
+    run(["docker", "push", "--all-tags", docker_image(image)], verbose)
+    end = datetime.now()
+
+    if not verbose:
+        logger.info(
+            "Uploaded {name} in {elapsed}",
+            name=name,
+            elapsed=humanize.precisedelta(end - start),
+        )
 
 
 def docker_image(image: str) -> str:

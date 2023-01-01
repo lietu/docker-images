@@ -64,9 +64,10 @@ def _build(
             signal.signal(signal.SIGINT, original_sigint_handler)
 
             def _build_images(_images):
+                verbose = False
                 res = pool.starmap_async(
                     build_image,
-                    [(image, version, False, platform) for image, version in _images],
+                    [(image, version, verbose, platform) for image, version in _images],
                 )
                 while True:
                     try:
@@ -101,12 +102,38 @@ def _build(
 
 
 @upload.command(help="Upload docker tags")
-def _upload():
+def _upload(parallel: int = typer.Option(16)):
     images = find_images()
-    validate(images)
-    for image, versions in images.items():
-        for version in versions:
-            upload_tags(image, version)
+
+    utils.logger.info(f"Uploading {len(images)} images in {parallel} threads")
+    utils.logger.remove()
+    utils.logger.add(sys.stderr, enqueue=True, level="INFO")
+
+    original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
+    with Pool(
+            parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
+    ) as pool:
+        signal.signal(signal.SIGINT, original_sigint_handler)
+
+        validate(images)
+        image_versions = []
+        for image, versions in images.items():
+            for version in versions:
+                image_versions.append((image, version))
+
+        verbose = False
+        res = pool.starmap_async(
+            upload_tags,
+            [(image, version, verbose) for image, version in image_versions],
+        )
+
+        while True:
+            try:
+                # Have a timeout to be non-blocking for signals
+                res.get(3)
+                break
+            except multiprocessing.context.TimeoutError:
+                pass
 
 
 @scan.command(help="Scan docker images")
