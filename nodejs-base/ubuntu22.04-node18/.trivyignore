@@ -1,0 +1,5 @@
+# Not running an OpenSSL TLS server
+CVE-2021-3449
+
+# Not parsing elliptic curve keys
+CVE-2022-0778
