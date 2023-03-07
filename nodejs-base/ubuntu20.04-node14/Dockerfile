@@ -1,12 +1,8 @@
 FROM lietu/ubuntu-base:20.04
 
 ENV \
-    DEBIAN_FRONTEND="noninteractive" \
     GID=1000 \
     GROUP="api" \
-    LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    TZ="UTC" \
     UID=1000 \
     USER="api" \
     ENV_LAST_LINE="LEAVE-ME-HERE"

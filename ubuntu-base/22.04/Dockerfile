@@ -1,6 +1,7 @@
 FROM ubuntu:22.04
 
 ENV \
+    DEBIAN_FRONTEND="noninteractive" \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TZ="UTC" \
