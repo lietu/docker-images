@@ -30,13 +30,12 @@ jobs:
 
             while [[ true ]]; do
               # Reset repo state
-              git checkout -f master
-              git pull
-
+              git checkout --orphan "${BRANCH}"
               date +%Y-%m-%dT%H:%M:%S > .github/keepalive.txt
-              git add .github/keepalive.txt
-              git commit -m "Keeping GitHub actions alive"
-              git push origin master
+              git reset 
+              git add .github/keepalive.txt 
+              git commit --message "${MESSAGE}"
+              git push -f --set-upstream origin "${BRANCH}"
 
               if [[ "$?" == "0" ]]; then
                 echo "Keepalive commit successful."
@@ -46,3 +45,6 @@ jobs:
               fi
             done
           fi
+        env:
+          BRANCH: keepalive
+          MESSAGE: Keeping GitHub actions alive
