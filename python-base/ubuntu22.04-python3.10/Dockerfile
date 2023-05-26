@@ -8,7 +8,7 @@ ENV \
     LC_ALL=C.UTF-8 \
     PATH="${PATH}:/.venv:/usr/local/poetry/bin" \
     POETRY_HOME="/usr/local/poetry" \
-    POETRY_VERSION="1.2.2" \
+    POETRY_VERSION="1.5.0" \
     PYTHONUNBUFFERED=1 \
     PYTHON_VERSION="3.10" \
     TZ="UTC" \

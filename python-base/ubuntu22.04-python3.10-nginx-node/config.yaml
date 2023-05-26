@@ -7,15 +7,15 @@ tags:
   - lts-python-nginx-node16
   - ubuntu-python3.10-nginx-node
   - ubuntu-python3.10-nginx-node16
-  - poetry1.2.2-nginx-node
-  - poetry1.2.2-nginx-node16
-  - lts-poetry1.2.2-nginx-node
-  - lts-poetry1.2.2-nginx-node16
-  - ubuntu-python-poetry1.2.2-nginx-node
-  - ubuntu-python-poetry1.2.2-nginx-node16
-  - ubuntu-python3.10-poetry1.2.2-nginx-node
-  - ubuntu-python3.10-poetry1.2.2-nginx-node16
-  - ubuntu22.04-python-poetry1.2.2-nginx-node
-  - ubuntu22.04-python-poetry1.2.2-nginx-node16
-  - ubuntu22.04-python3.10-poetry1.2.2-nginx-node
-  - ubuntu22.04-python3.10-poetry1.2.2-nginx-node16
+  - poetry1.5.0-nginx-node
+  - poetry1.5.0-nginx-node16
+  - lts-poetry1.5.0-nginx-node
+  - lts-poetry1.5.0-nginx-node16
+  - ubuntu-python-poetry1.5.0-nginx-node
+  - ubuntu-python-poetry1.5.0-nginx-node16
+  - ubuntu-python3.10-poetry1.5.0-nginx-node
+  - ubuntu-python3.10-poetry1.5.0-nginx-node16
+  - ubuntu22.04-python-poetry1.5.0-nginx-node
+  - ubuntu22.04-python-poetry1.5.0-nginx-node16
+  - ubuntu22.04-python3.10-poetry1.5.0-nginx-node
+  - ubuntu22.04-python3.10-poetry1.5.0-nginx-node16

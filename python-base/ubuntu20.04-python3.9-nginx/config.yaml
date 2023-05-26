@@ -1,6 +1,6 @@
 tags:
   - ubuntu20.04-python-nginx
   - ubuntu-python3.9-nginx
-  - ubuntu-python3.9-poetry1.2.2-nginx
-  - ubuntu20.04-python-poetry1.2.2-nginx
-  - ubuntu20.04-python3.9-poetry1.2.2-nginx
+  - ubuntu-python3.9-poetry1.5.0-nginx
+  - ubuntu20.04-python-poetry1.5.0-nginx
+  - ubuntu20.04-python3.9-poetry1.5.0-nginx

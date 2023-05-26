@@ -5,12 +5,12 @@ tags:
   - lts-python-nginx-node14
   - ubuntu-python3.9-nginx-node
   - ubuntu-python3.9-nginx-node14
-  - poetry1.2.2-nginx-node14
-  - lts-poetry1.2.2-nginx-node14
-  - ubuntu-python-poetry1.2.2-nginx-node14
-  - ubuntu-python3.9-poetry1.2.2-nginx-node
-  - ubuntu-python3.9-poetry1.2.2-nginx-node14
-  - ubuntu20.04-python-poetry1.2.2-nginx-node
-  - ubuntu20.04-python-poetry1.2.2-nginx-node14
-  - ubuntu20.04-python3.9-poetry1.2.2-nginx-node
-  - ubuntu20.04-python3.9-poetry1.2.2-nginx-node14
+  - poetry1.5.0-nginx-node14
+  - lts-poetry1.5.0-nginx-node14
+  - ubuntu-python-poetry1.5.0-nginx-node14
+  - ubuntu-python3.9-poetry1.5.0-nginx-node
+  - ubuntu-python3.9-poetry1.5.0-nginx-node14
+  - ubuntu20.04-python-poetry1.5.0-nginx-node
+  - ubuntu20.04-python-poetry1.5.0-nginx-node14
+  - ubuntu20.04-python3.9-poetry1.5.0-nginx-node
+  - ubuntu20.04-python3.9-poetry1.5.0-nginx-node14

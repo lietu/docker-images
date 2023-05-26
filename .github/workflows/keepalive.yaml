@@ -32,8 +32,8 @@ jobs:
               # Reset repo state
               git checkout --orphan "${BRANCH}"
               date +%Y-%m-%dT%H:%M:%S > .github/keepalive.txt
-              git reset 
-              git add .github/keepalive.txt 
+              git reset
+              git add .github/keepalive.txt
               git commit --message "${MESSAGE}"
               git push -f --set-upstream origin "${BRANCH}"
 
