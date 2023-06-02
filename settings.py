@@ -18,7 +18,6 @@ class Settings(BaseSettings):
             "python-base/ubuntu22.04-python3.10",
         ],
         [
-            "python-base/ubuntu20.04-python3.9-nginx",
             "python-base/ubuntu22.04-python3.10-nginx",
         ],
     ]
