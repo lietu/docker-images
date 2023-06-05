@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     # User or organization name, used for "user/image" -name generation
     DOCKER_USER = "digitallivinginternational"  # Hopefully we'll get a shorter one
 
+    LOCAL_REGISTRY = "localhost:5000"
+
     # List of images that should be built beforehand
     PRIORITY_BUILDS = [
         [

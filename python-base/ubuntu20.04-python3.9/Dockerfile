@@ -1,4 +1,5 @@
-FROM digitallivinginternational/ubuntu-base:20.04
+ARG LOCAL_REGISTRY=""
+FROM ${LOCAL_REGISTRY}ubuntu-base:20.04
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \

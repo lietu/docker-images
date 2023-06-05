@@ -19,6 +19,7 @@ humanize = "^4.4.0"
 
 [tool.poetry.scripts]
 build = "docker_build.main:build"
+build_multiplatform = "docker_build.main:build_multiplatform"
 docker_username = "docker_build.main:docker_username"
 list = "docker_build.main:list"
 scan = "docker_build.main:scan"
