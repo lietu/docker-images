@@ -23,7 +23,7 @@ Afterwards you can either set this up on your own build pipelines with the comma
 
 ```
 poetry install
-poetry run build_muliplatform
+poetry run build_multiplatform
 poetry run upload
 poetry run scan
 ```
