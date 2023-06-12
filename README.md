@@ -4,14 +4,16 @@ Builds your Docker images automatically, like magic. Good for handling common ba
 images for all your projects, apps, whatever.
 
 This repository builds images to
-[hub.docker.com/u/digitallivinginternational](https://hub.docker.com/u/digitallivinginternational)
+[IOXIO® GitHub Packages](https://github.com/orgs/ioxiocom/packages) or
+`ghcr.io/ioxiocom/`
 
 ## How do you use this then?
 
 Well, we got 3 things you need to worry about:
 
 1. General configuration in `settings.py`: Basically you need to set up your Docker hub
-   username there to prefix all built images with the right name
+   username prefixed by the `ghcr.io` since we are using GitHub container registry so as
+   to prefix all built images with the right name
 2. Images and versions: First level of subdirectories in this repo is "images", as in
    the repository names (`username/<repository>`) for Docker hub. The subdirectories in
    that defines the "versions" - basically default tags for things to be built for that

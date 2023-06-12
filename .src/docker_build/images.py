@@ -175,14 +175,6 @@ def build_image_multiplatform(
         )
 
 
-def upload_tags(image: str, version: str):
-    name = f"{image}/{version}"
-    logger.info("Uploading tags for {name}", name=name)
-
-    # --all-tags added in Docker 20.10.0
-    run(["docker", "push", "--all-tags", docker_image(image)])
-
-
 def upload_tags_from_local_registry(images: Dict[str, List[str]]):
     # local docker registry runs by HTTP, so we state it in regctl
     run(["regctl", "registry", "set", "--tls", "disabled", conf.LOCAL_REGISTRY])
