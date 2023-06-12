@@ -3,9 +3,9 @@ tags:
   - ubuntu22.04-python-nginx-node18
   - lts-python-nginx-node18
   - ubuntu-python3.10-nginx-node18
-  - poetry1.5.0-nginx-node18
-  - lts-poetry1.5.0-nginx-node18
-  - ubuntu-python-poetry1.5.0-nginx-node18
-  - ubuntu-python3.10-poetry1.5.0-nginx-node18
-  - ubuntu22.04-python-poetry1.5.0-nginx-node18
-  - ubuntu22.04-python3.10-poetry1.5.0-nginx-node18
+  - poetry1.5.1-nginx-node18
+  - lts-poetry1.5.1-nginx-node18
+  - ubuntu-python-poetry1.5.1-nginx-node18
+  - ubuntu-python3.10-poetry1.5.1-nginx-node18
+  - ubuntu22.04-python-poetry1.5.1-nginx-node18
+  - ubuntu22.04-python3.10-poetry1.5.1-nginx-node18
