@@ -22,6 +22,7 @@ apt-get install -y --no-install-recommends \
 # This line is intentionally empty to preserve trailing \ in previous list
 
 bash /src/docker/scripts/install_node.sh
+bash /src/docker/scripts/install_multi_start.sh
 
 # Allow the next script to run as ${USER}
 chown -R "${USER}":"${GROUP}" /src
