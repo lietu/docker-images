@@ -1,4 +1,5 @@
-FROM python-base:ubuntu22.04-python3.10-nginx
+ARG LOCAL_REGISTRY=""
+FROM ${LOCAL_REGISTRY}python-base:ubuntu22.04-python3.10-nginx
 
 # Run docker/base-prepare.sh
 WORKDIR /src/

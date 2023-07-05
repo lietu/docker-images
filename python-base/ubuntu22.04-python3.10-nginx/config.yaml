@@ -3,9 +3,9 @@ tags:
   - ubuntu22.04-python-nginx
   - lts-python-nginx
   - ubuntu-python3.10-nginx
-  - poetry1.5.0-nginx
-  - lts-poetry1.5.0-nginx
-  - ubuntu-python-poetry1.5.0-nginx
-  - ubuntu-python3.10-poetry1.5.0-nginx
-  - ubuntu22.04-python-poetry1.5.0-nginx
-  - ubuntu22.04-python3.10-poetry1.5.0-nginx
+  - poetry1.5.1-nginx
+  - lts-poetry1.5.1-nginx
+  - ubuntu-python-poetry1.5.1-nginx
+  - ubuntu-python3.10-poetry1.5.1-nginx
+  - ubuntu22.04-python-poetry1.5.1-nginx
+  - ubuntu22.04-python3.10-poetry1.5.1-nginx

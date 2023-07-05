@@ -3,8 +3,10 @@ from pydantic import BaseSettings
 
 # Any of these can be overridden via environment variables with matching names
 class Settings(BaseSettings):
-    # User or organization name, used for "user/image" -name generation
-    DOCKER_USER = "digitallivinginternational"  # Hopefully we'll get a shorter one
+    # GitHub container registry and organization name, used for "registry/org/image" -name generation
+    DOCKER_USER = "ghcr.io/ioxiocom"
+
+    LOCAL_REGISTRY = "localhost:5000"
 
     # List of images that should be built beforehand
     PRIORITY_BUILDS = [
@@ -18,7 +20,6 @@ class Settings(BaseSettings):
             "python-base/ubuntu22.04-python3.10",
         ],
         [
-            "python-base/ubuntu20.04-python3.9-nginx",
             "python-base/ubuntu22.04-python3.10-nginx",
         ],
     ]

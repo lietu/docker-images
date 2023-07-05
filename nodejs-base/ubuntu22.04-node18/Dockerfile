@@ -1,4 +1,5 @@
-FROM digitallivinginternational/ubuntu-base:22.04
+ARG LOCAL_REGISTRY=""
+FROM ${LOCAL_REGISTRY}ubuntu-base:22.04
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
