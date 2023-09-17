@@ -4,7 +4,7 @@
 set -exuo pipefail
 
 # Set up nodesource repository
-curl -sL https://deb.nodesource.com/setup_16.x | bash -
+curl -sL https://deb.nodesource.com/setup_18.x | bash -
 
 # Install Node
 apt-get update

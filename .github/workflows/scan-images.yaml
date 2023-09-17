@@ -47,5 +47,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install trivy
 
+          # Update the DB so we can skip it later
+          trivy image --download-db-only
+
       - name: Trivy security scan
         run: poetry run scan

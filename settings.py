@@ -11,12 +11,15 @@ class Settings(BaseSettings):
         [
             "ubuntu-base/20.04",
             "ubuntu-base/22.04",
+            "nginx-base/alpine-nginx",
         ],
         [
-            "python-base/ubuntu20.04-python3.9",
             "python-base/ubuntu22.04-python3.10",
             "python-base/ubuntu22.04-python3.11",
             "nginx-base/alpine-nginx",
+        ],
+        [
+            "python-base/ubuntu22.04-python3.10-nginx",
         ],
     ]
 
