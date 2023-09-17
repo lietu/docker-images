@@ -1,5 +1,5 @@
 ARG LOCAL_REGISTRY=""
-FROM ${LOCAL_REGISTRY}ubuntu-base:20.04
+FROM ${LOCAL_REGISTRY}ubuntu-base:22.04
 
 ENV \
     GID=1000 \
