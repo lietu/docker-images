@@ -4,9 +4,9 @@ tags:
   - ubuntu22.04-python
   - lts-python
   - ubuntu-python3.11
-  - poetry1.4.0
-  - lts-poetry1.4.0
-  - ubuntu-python-poetry1.4.0
-  - ubuntu-python3.11-poetry1.4.0
-  - ubuntu22.04-python-poetry1.4.0
-  - ubuntu22.04-python3.11-poetry1.4.0
+  - poetry1.5.1
+  - lts-poetry1.5.1
+  - ubuntu-python-poetry1.5.1
+  - ubuntu-python3.11-poetry1.5.1
+  - ubuntu22.04-python-poetry1.5.1
+  - ubuntu22.04-python3.11-poetry1.5.1
