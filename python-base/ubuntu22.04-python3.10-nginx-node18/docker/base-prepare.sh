@@ -17,6 +17,8 @@ set -exuo pipefail
 apt-get update
 apt-get install -y --no-install-recommends \
   curl \
+  ca-certificates \
+  gnupg \
 # This line is intentionally empty to preserve trailing \ in previous list
 
 bash /src/docker/scripts/install_node.sh
