@@ -25,6 +25,7 @@ apt-get install -y --no-install-recommends \
 bash /src/docker/scripts/install_python.sh
 bash /src/docker/scripts/prepare_workon_dir.sh
 bash /src/docker/scripts/install_poetry.sh
+bash /src/docker/scripts/install_multi_start.sh
 
 # Allow the next script to run as ${USER}
 chown -R "${USER}":"${GROUP}" /src

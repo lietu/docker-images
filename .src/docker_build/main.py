@@ -10,12 +10,13 @@ import docker_build.utils as utils
 import typer
 from docker_build.images import (
     build_image,
+    build_image_multiplatform,
     docker_tag,
     find_images,
     scan_image,
     sort_images,
     update_scanner,
-    upload_tags,
+    upload_tags_from_local_registry,
 )
 from docker_build.validation import validate
 
@@ -28,10 +29,12 @@ class Platform(str, Enum):
 
 
 build = typer.Typer()
+build_multiplatform = typer.Typer()
 upload = typer.Typer()
 scan = typer.Typer()
 list = typer.Typer()
 docker_username = typer.Typer()
+ALL_PLATFORMS = [Platform.LINUX_AMD64.value, Platform.LINUX_ARM64.value]
 
 
 def init_pool(logger_, env):
@@ -39,9 +42,8 @@ def init_pool(logger_, env):
     os.environ.update(env)
 
 
-@build.command(help="Build docker images")
-def _build(
-    parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
+def _build_all_images(
+    parallel: int, multiplatform: bool, platform: Optional[Platform] = None
 ):
     platform = platform.value if platform else None
     images = find_images()
@@ -51,7 +53,10 @@ def _build(
     if parallel == 1:
         images = [img_conf.image for img_conf in sorted_images]
         for image, version in images:
-            build_image(image, version, platform=platform)
+            if multiplatform:
+                build_image_multiplatform(image, version, ALL_PLATFORMS)
+            else:
+                build_image(image, version, platform=platform)
     else:
         utils.logger.info(f"Building {len(sorted_images)} images in {parallel} threads")
         utils.logger.remove()
@@ -64,11 +69,20 @@ def _build(
             signal.signal(signal.SIGINT, original_sigint_handler)
 
             def _build_images(_images):
-                verbose = False
-                res = pool.starmap_async(
-                    build_image,
-                    [(image, version, verbose, platform) for image, version in _images],
-                )
+                if multiplatform:
+                    res = pool.starmap_async(
+                        build_image_multiplatform,
+                        [(image, version, ALL_PLATFORMS) for image, version in _images],
+                    )
+                else:
+                    res = pool.starmap_async(
+                        build_image,
+                        [
+                            (image, version, False, platform)
+                            for image, version in _images
+                        ],
+                    )
+
                 while True:
                     try:
                         # Have a timeout to be non-blocking for signals
@@ -101,39 +115,25 @@ def _build(
             pool.close()
 
 
+@build.command(help="Build docker images")
+def _build(
+    parallel: int = typer.Option(1), platform: Optional[Platform] = typer.Option(None)
+):
+    _build_all_images(parallel, platform=platform, multiplatform=False)
+
+
+@build_multiplatform.command(help="Build docker images for multiple platforms")
+def _build_multiplatform(
+    parallel: int = typer.Option(1),
+):
+    _build_all_images(parallel, multiplatform=True)
+
+
 @upload.command(help="Upload docker tags")
-def _upload(parallel: int = typer.Option(16)):
+def _upload():
     images = find_images()
-
-    utils.logger.info(f"Uploading {len(images)} images in {parallel} threads")
-    utils.logger.remove()
-    utils.logger.add(sys.stderr, enqueue=True, level="INFO")
-
-    original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
-    with Pool(
-            parallel, initializer=init_pool, initargs=(utils.logger, os.environ)
-    ) as pool:
-        signal.signal(signal.SIGINT, original_sigint_handler)
-
-        validate(images)
-        image_versions = []
-        for image, versions in images.items():
-            for version in versions:
-                image_versions.append((image, version))
-
-        verbose = False
-        res = pool.starmap_async(
-            upload_tags,
-            [(image, version, verbose) for image, version in image_versions],
-        )
-
-        while True:
-            try:
-                # Have a timeout to be non-blocking for signals
-                res.get(3)
-                break
-            except multiprocessing.context.TimeoutError:
-                pass
+    validate(images)
+    upload_tags_from_local_registry(images)
 
 
 @scan.command(help="Scan docker images")

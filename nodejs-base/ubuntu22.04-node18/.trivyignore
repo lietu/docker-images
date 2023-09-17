@@ -3,3 +3,9 @@ CVE-2021-3449
 
 # Not parsing elliptic curve keys
 CVE-2022-0778
+
+# A heap out-of-bounds write vulnerability in the Linux Kernel ipvlan network driver
+CVE-2023-3090
+
+#X.400 address type confusion in X.509 GeneralName
+CVE-2023-0286

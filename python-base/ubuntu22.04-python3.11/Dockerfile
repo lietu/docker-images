@@ -1,11 +1,12 @@
-FROM lietu/ubuntu-base:22.04
+ARG LOCAL_REGISTRY=""
+FROM ${LOCAL_REGISTRY}ubuntu-base:20.04
 
 ENV \
     GID=1000 \
     GROUP="api" \
     PATH="${PATH}:/.venv:/usr/local/poetry/bin" \
     POETRY_HOME="/usr/local/poetry" \
-    POETRY_VERSION="1.4.0" \
+    POETRY_VERSION="1.5.1" \
     PYTHONUNBUFFERED=1 \
     PYTHON_VERSION="3.11" \
     UID=1000 \

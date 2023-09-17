@@ -1,4 +1,5 @@
-from datetime import datetime
+import time
+from datetime import timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -129,32 +130,62 @@ def build_image(image: str, version: str, verbose=True, platform: Optional[str] 
     if platform:
         cmd += ["--platform", platform]
 
-    start = datetime.now()
+    start = time.perf_counter()
     run(cmd, verbose=verbose)
-    end = datetime.now()
+    end = time.perf_counter()
     if not verbose:
         logger.info(
             "Built {name} in {elapsed}",
             name=name,
-            elapsed=humanize.precisedelta(end - start),
+            elapsed=humanize.precisedelta(timedelta(seconds=end - start)),
         )
 
 
-def upload_tags(image: str, version: str, verbose=True):
+def build_image_multiplatform(
+    image: str, version: str, platforms: List[str], verbose=True
+):
     name = f"{image}/{version}"
-    logger.info("Uploading tags for {name}", name=name)
 
-    # --all-tags added in Docker 20.10.0
-    start = datetime.now()
-    run(["docker", "push", "--all-tags", docker_image(image)], verbose)
-    end = datetime.now()
+    logger.info("Building {name}", name=name)
 
+    localhost_tag = f"{conf.LOCAL_REGISTRY}/{image}:{version}"
+    build_cmd = [
+        "docker",
+        "buildx",
+        "build",
+        "--platform",
+        ",".join(platforms),
+        name,
+        "-t",
+        localhost_tag,
+        "--build-arg",
+        f"LOCAL_REGISTRY={conf.LOCAL_REGISTRY}/",
+        "--network=host",
+        "--push",  # push to localhost registry
+    ]
+
+    start = time.perf_counter()
+    run(build_cmd, verbose=verbose)
+    end = time.perf_counter()
     if not verbose:
         logger.info(
-            "Uploaded {name} in {elapsed}",
+            "Built {name} in {elapsed}",
             name=name,
-            elapsed=humanize.precisedelta(end - start),
+            elapsed=humanize.precisedelta(timedelta(seconds=end - start)),
         )
+
+
+def upload_tags_from_local_registry(images: Dict[str, List[str]]):
+    # local docker registry runs by HTTP, so we state it in regctl
+    run(["regctl", "registry", "set", "--tls", "disabled", conf.LOCAL_REGISTRY])
+    for image, versions in images.items():
+        for version in versions:
+            config = get_config(image, version)
+            localhost_tag = f"{conf.LOCAL_REGISTRY}/{image}:{version}"
+            tags = [docker_tag(image, tag) for tag in config.tags]
+            tags.append(docker_tag(image, version))
+            for tag in tags:
+                run(["regctl", "image", "copy", localhost_tag, tag], verbose=True)
 
 
 def docker_image(image: str) -> str:
