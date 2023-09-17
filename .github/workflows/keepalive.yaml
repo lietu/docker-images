@@ -30,13 +30,13 @@ jobs:
 
             while [[ true ]]; do
               # Reset repo state
-              git checkout -f master
+              git checkout -f main
               git pull
 
               date +%Y-%m-%dT%H:%M:%S > .github/keepalive.txt
               git add .github/keepalive.txt
               git commit -m "Keeping GitHub actions alive"
-              git push origin master
+              git push origin main
 
               if [[ "$?" == "0" ]]; then
                 echo "Keepalive commit successful."

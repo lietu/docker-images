@@ -10,7 +10,7 @@ on:
     - cron: "0 1 1 * *" # An hour after the normal builds
   push:
     branches:
-      - master
+      - main
 
 env:
   DOCKER_BUILDKIT: 1
