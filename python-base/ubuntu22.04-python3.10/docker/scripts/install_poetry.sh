@@ -13,4 +13,8 @@ su "${USER}" -c "curl -sSL ${POETRY_URL} | python - --version ${POETRY_VERSION}"
 su "${USER}" -c "echo \"export PATH=\\\"${POETRY_HOME}/bin:\\\$PATH\\\"\" > \"${POETRY_HOME}/env\""
 
 chmod +x "${POETRY_HOME}"/bin/*
+
+# Make poetry available from PATH always
+ln -sf "${POETRY_HOME}/bin/poetry" /usr/bin/poetry
+
 bash /src/docker/scripts/configure_poetry.sh

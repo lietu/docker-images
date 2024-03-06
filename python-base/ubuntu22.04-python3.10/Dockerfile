@@ -6,7 +6,7 @@ ENV \
     GROUP="api" \
     PATH="${PATH}:/.venv:/usr/local/poetry/bin" \
     POETRY_HOME="/usr/local/poetry" \
-    POETRY_VERSION="1.5.1" \
+    POETRY_VERSION="1.8.2" \
     PYTHONUNBUFFERED=1 \
     PYTHON_VERSION="3.10" \
     UID=1000 \

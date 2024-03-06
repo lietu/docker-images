@@ -3,6 +3,10 @@
 # shellcheck disable=SC2039
 set -exuo pipefail
 
+# Deadsnakes PPA is the only way to get stable Python 3.11 for Ubuntu 22.04
+apt-get install -y software-properties-common
+add-apt-repository ppa:deadsnakes/ppa -y
+
 # Install python
 apt-get install -y --no-install-recommends \
   "python${PYTHON_VERSION}" \
