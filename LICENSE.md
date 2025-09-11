@@ -1,6 +1,6 @@
 ## "New BSD" / "BSD 3-clause" -license
 
-Copyright 2021 Janne Enberg
+Copyright 2025 Janne Enberg
 
 Redistribution and use in source and binary forms, with or without modification, are
 permitted provided that the following conditions are met:

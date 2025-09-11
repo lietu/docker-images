@@ -1,0 +1,18 @@
+
+docker_user = "ghcr.io/lietu"
+
+local_registry = "localhost:5000"
+
+priority_builds = [
+    [
+        "ubuntu-base/22.04",
+        "nginx-base/alpine-nginx",
+    ],
+    [
+        "python-base/ubuntu22.04-python3.10",
+        "python-base/ubuntu22.04-python3.11",
+    ],
+    [
+        "python-base/ubuntu22.04-python3.10-nginx",
+    ],
+]
