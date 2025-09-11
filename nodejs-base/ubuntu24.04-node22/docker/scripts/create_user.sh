@@ -4,7 +4,8 @@
 set -exuo pipefail
 
 # Create user
-addgroup --system --gid "${GID}" "${GROUP}"
+groupadd --system --gid "${GID}" "${GROUP}"
+
 useradd \
   --uid "${UID}" \
   --shell /bin/bash \

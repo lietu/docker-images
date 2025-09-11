@@ -9,12 +9,11 @@ mkdir "${POETRY_HOME}"
 chown -R "${USER}":"${GROUP}" "${POETRY_HOME}"
 
 su "${USER}" -c "curl -sSL ${POETRY_URL} | python - --version ${POETRY_VERSION}"
+
 # Create the env file manually; installers prior to 1.2.0 created this by default
 su "${USER}" -c "echo \"export PATH=\\\"${POETRY_HOME}/bin:\\\$PATH\\\"\" > \"${POETRY_HOME}/env\""
 
-chmod +x "${POETRY_HOME}"/bin/*
+su "${USER}" -c ". ${POETRY_HOME}/env; poetry config virtualenvs.in-project false"
+su "${USER}" -c ". ${POETRY_HOME}/env; poetry config virtualenvs.path ${WORKON_HOME}"
 
-# Make poetry available from PATH always
-ln -sf "${POETRY_HOME}/bin/poetry" /usr/bin/poetry
-
-bash /src/docker/scripts/configure_poetry.sh
+cat ${POETRY_HOME}/env;

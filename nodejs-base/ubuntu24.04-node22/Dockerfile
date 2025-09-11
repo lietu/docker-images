@@ -1,5 +1,12 @@
 ARG LOCAL_REGISTRY=""
-FROM ${LOCAL_REGISTRY}python-base:ubuntu22.04-python3.10-nginx
+FROM ${LOCAL_REGISTRY}ubuntu-base:24.04
+
+ENV \
+    GID=1001 \
+    GROUP="api" \
+    UID=1001 \
+    USER="api" \
+    ENV_LAST_LINE="LEAVE-ME-HERE"
 
 # Run docker/base-prepare.sh
 WORKDIR /src/
