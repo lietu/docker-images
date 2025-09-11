@@ -13,6 +13,6 @@ WORKDIR /src/
 COPY docker /src/docker
 RUN : \
  && set -exu \
- && bash /src/docker/base-prepare.sh \
+ && bash /src/docker/base_prepare.sh \
  && rm -rf /src/docker \
  && :
