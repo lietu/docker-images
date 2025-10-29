@@ -50,7 +50,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber==1.1.1
+        run: pip install dibber
 
       - name: Setup buildx builder
         run: |
@@ -100,7 +100,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber==1.1.1
+        run: pip install dibber
 
       - name: Setup buildx builder
         run: |
@@ -144,7 +144,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber==1.1.1
+        run: pip install dibber
 
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53  # v6.0.0
         with:
@@ -158,6 +158,11 @@ jobs:
 
       - name: Merge manifests
         run: |
-          cat amd64/manifest_data.txt arm64/manifest_data.txt > manifest_data.txt
-          cat manifest_data.txt
+          cat amd64/manifest_data.txt > manifest_data.txt
+          echo >> tmp_manifest_data.txt
+
+          cat arm64/manifest_data.txt >> manifest_data.txt
+          echo >> tmp_manifest_data.txt
+
+          cat tmp_manifest_data.txt | sort -u | grep -v '^[[:space:]]*$' > manifest_data.txt
           dibber merge-manifests
