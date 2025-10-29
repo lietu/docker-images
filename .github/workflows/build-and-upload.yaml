@@ -111,6 +111,7 @@ jobs:
           retention-days: 14
 
   merge_manifests:
+    needs: [build_and_upload_amd64, build_and_upload_arm64]
     name: Merge manifests
     runs-on: ubuntu-24.04
     # If you want to run on a custom runner to make this faster you need to create one here
@@ -144,7 +145,6 @@ jobs:
           path: arm64
 
       - name: Merge manifests
-        needs: [build_and_upload_amd64, build_and_upload_arm64]
         run: |
           find .
           cat amd64/manifest_data.txt arm64/manifest_data.txt > manifest_data.txt
