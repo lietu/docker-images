@@ -1,5 +1,4 @@
-ARG LOCAL_REGISTRY=""
-FROM ${LOCAL_REGISTRY}ubuntu-base:24.04
+FROM ubuntu-base:24.04
 
 ENV \
     GID=1001 \
