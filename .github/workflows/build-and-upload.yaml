@@ -1,6 +1,8 @@
 name: Build and upload images
 
 on:
+  # Allow manually triggering workflow
+  workflow_dispatch:
   schedule:
     # First day of every month, you know, for automatic updates etc.
     - cron: "0 0 1 * *"
@@ -11,10 +13,24 @@ on:
 env:
   DOCKER_BUILDKIT: 1
 
+# Cancel previous builds if a new one is triggered
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
-  build_and_upload:
-    name: Build and upload
-    runs-on: ubuntu-latest
+
+  #
+  # AMD64 builds
+  #
+
+  build_and_upload_amd64:
+    name: Build AMD64
+    runs-on: ubuntu-24.04
+
+    # If you want to run on a custom runner to make this faster you need to create one here
+    # https://github.com/organizations/<orgname>/settings/actions/runners
+    # runs-on: faster-amd64
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -31,59 +47,54 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install regctl
-        run: |
-          set -ex
-
-          INSTALL_DIR="$HOME/.regctl"
-          OS=linux
-          ARCH=amd64
-
-          mkdir -p "$INSTALL_DIR"
-
-          # Download and Install regctl
-          curl -fsSL "https://github.com/regclient/regclient/releases/download/${VERSION}/regctl-${OS}-${ARCH}" > "${INSTALL_DIR}/regctl"
-          chmod 755 "${INSTALL_DIR}/regctl"
-
-          # Validate download
-          if which cosign >/dev/null; then
-            curl -fsSL https://github.com/regclient/regclient/releases/latest/download/metadata.tgz > metadata.tgz
-            tar -xzf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
-            cosign verify-blob \
-              --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-              --certificate-identity-regexp https://github.com/regclient/regclient/.github/workflows/ \
-              --certificate regctl-${OS}-${ARCH}.pem \
-              --signature regctl-${OS}-${ARCH}.sig \
-              "${{ inputs.install-dir }}/regctl"
-            rm -rf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
-          fi
-
-          # Add it to environment
-          echo "${INSTALL_DIR}" >> $GITHUB_PATH
-        env:
-          VERSION: v0.4.7
-
-      - name: Check regctl installation
-        run: regctl version
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392  # v3.6.0
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435  # v3.11.1
-
-      - name: Setup custom builder
-        run: |
-          docker buildx create --use --bootstrap --name multi-builder --platform linux/arm64,linux/amd64 --driver-opt network=host
-
-      - name: Run local Docker registry
-        run: docker run -d -p 5000:5000 --name registry --network=host registry:2
 
       - name: Install Dibber
         run: pip install dibber
 
       - name: Build images
-        run: dibber build-multiplatform --parallel 8
+        run: dibber build --parallel 8
+
+      - name: Upload images
+        if: success()
+        run: |
+          dibber upload
+
+  #
+  # ARM64 builds
+  #
+
+  build_and_upload_arm64:
+    name: Build ARM64
+    runs-on: ubuntu-24.04-arm
+    # If you want to run on a custom runner to make this faster you need to create one here
+    # https://github.com/organizations/<orgname>/settings/actions/runners
+    # runs-on: faster-arm64
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
+        with:
+          python-version: "3.13"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435  # v3.11.1
+
+      - name: Install Dibber
+        run: pip install dibber
+
+      - name: Build images
+        run: dibber build --parallel 8
 
       - name: Upload images
         if: success()
