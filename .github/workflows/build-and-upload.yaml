@@ -130,7 +130,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-        
+
       - name: Log in to the Container registry
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a  # v2.1.0
         with:
@@ -158,6 +158,6 @@ jobs:
 
       - name: Merge manifests
         run: |
-          find .
           cat amd64/manifest_data.txt arm64/manifest_data.txt > manifest_data.txt
+          cat manifest_data.txt
           dibber merge-manifests
