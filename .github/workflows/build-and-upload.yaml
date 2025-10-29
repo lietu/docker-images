@@ -158,11 +158,11 @@ jobs:
 
       - name: Merge manifests
         run: |
-          cat amd64/manifest_data.txt > manifest_data.txt
-          echo >> tmp_manifest_data.txt
+          cat amd64/manifest_data.txt > tmp_manifest_data.txt
+          echo "" >> tmp_manifest_data.txt
 
-          cat arm64/manifest_data.txt >> manifest_data.txt
-          echo >> tmp_manifest_data.txt
+          cat arm64/manifest_data.txt >> tmp_manifest_data.txt
+          echo "" >> tmp_manifest_data.txt
 
           cat tmp_manifest_data.txt | sort -u | grep -v '^[[:space:]]*$' > manifest_data.txt
           dibber merge-manifests
