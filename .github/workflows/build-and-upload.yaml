@@ -26,8 +26,10 @@ jobs:
 
   build_and_upload_amd64:
     name: Build AMD64
-    runs-on: ubuntu-24.04
+    env:
+      ARCH: amd64
 
+    runs-on: ubuntu-24.04
     # If you want to run on a custom runner to make this faster you need to create one here
     # https://github.com/organizations/<orgname>/settings/actions/runners
     # runs-on: faster-amd64
@@ -46,6 +48,40 @@ jobs:
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
           python-version: "3.13"
+
+      - name: Install regctl
+        run: |
+          set -ex
+
+          INSTALL_DIR="$HOME/.regctl"
+          OS=linux
+
+          mkdir -p "$INSTALL_DIR"
+
+          # Download and Install regctl
+          curl -fsSL "https://github.com/regclient/regclient/releases/download/${VERSION}/regctl-${OS}-${ARCH}" > "${INSTALL_DIR}/regctl"
+          chmod 755 "${INSTALL_DIR}/regctl"
+
+          # Validate download
+          if which cosign >/dev/null; then
+            curl -fsSL https://github.com/regclient/regclient/releases/latest/download/metadata.tgz > metadata.tgz
+            tar -xzf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
+            cosign verify-blob \
+              --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+              --certificate-identity-regexp https://github.com/regclient/regclient/.github/workflows/ \
+              --certificate regctl-${OS}-${ARCH}.pem \
+              --signature regctl-${OS}-${ARCH}.sig \
+              "${{ inputs.install-dir }}/regctl"
+            rm -rf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
+          fi
+
+          # Add it to environment
+          echo "${INSTALL_DIR}" >> $GITHUB_PATH
+        env:
+          VERSION: v0.9.2
+
+      - name: Check regctl installation
+        run: regctl version
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435  # v3.11.1
@@ -67,6 +103,9 @@ jobs:
 
   build_and_upload_arm64:
     name: Build ARM64
+    env:
+      ARCH: arm64
+
     runs-on: ubuntu-24.04-arm
     # If you want to run on a custom runner to make this faster you need to create one here
     # https://github.com/organizations/<orgname>/settings/actions/runners
@@ -86,6 +125,40 @@ jobs:
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6
         with:
           python-version: "3.13"
+
+      - name: Install regctl
+        run: |
+          set -ex
+
+          INSTALL_DIR="$HOME/.regctl"
+          OS=linux
+
+          mkdir -p "$INSTALL_DIR"
+
+          # Download and Install regctl
+          curl -fsSL "https://github.com/regclient/regclient/releases/download/${VERSION}/regctl-${OS}-${ARCH}" > "${INSTALL_DIR}/regctl"
+          chmod 755 "${INSTALL_DIR}/regctl"
+
+          # Validate download
+          if which cosign >/dev/null; then
+            curl -fsSL https://github.com/regclient/regclient/releases/latest/download/metadata.tgz > metadata.tgz
+            tar -xzf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
+            cosign verify-blob \
+              --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+              --certificate-identity-regexp https://github.com/regclient/regclient/.github/workflows/ \
+              --certificate regctl-${OS}-${ARCH}.pem \
+              --signature regctl-${OS}-${ARCH}.sig \
+              "${{ inputs.install-dir }}/regctl"
+            rm -rf metadata.tgz regctl-${OS}-${ARCH}.pem regctl-${OS}-${ARCH}.sig
+          fi
+
+          # Add it to environment
+          echo "${INSTALL_DIR}" >> $GITHUB_PATH
+        env:
+          VERSION: v0.9.2
+
+      - name: Check regctl installation
+        run: regctl version
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435  # v3.11.1
