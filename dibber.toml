@@ -1,7 +1,4 @@
-
 docker_user = "ghcr.io/lietu"
-
-local_registry = "localhost:5000"
 
 priority_builds = [
     [
