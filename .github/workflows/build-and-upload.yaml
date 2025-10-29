@@ -52,6 +52,10 @@ jobs:
       - name: Install Dibber
         run: pip install dibber==1.1.1
 
+      - name: Setup buildx builder
+        run: |
+          docker buildx create --use --bootstrap --name dibber-builder --driver docker-container --driver-opt network=host
+          
       - name: Build images
         run: dibber build --parallel 8
 
@@ -96,6 +100,10 @@ jobs:
 
       - name: Install Dibber
         run: pip install dibber==1.1.1
+
+      - name: Setup buildx builder
+        run: |
+          docker buildx create --use --bootstrap --name dibber-builder --driver docker-container --driver-opt network=host
 
       - name: Build images
         run: dibber build --parallel 8
