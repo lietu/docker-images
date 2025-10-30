@@ -31,7 +31,7 @@ jobs:
         run: pip install dibber
 
       - name: Build images
-        run: dibber build --parallel 8
+        run: dibber build --parallel 8 --local-only
 
       - name: List images
         run: dibber list
