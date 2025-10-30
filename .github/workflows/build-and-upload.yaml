@@ -161,17 +161,17 @@ jobs:
       - name: Merge manifests
         run: |
           # Append AMD64 files to temp files
-          cat amd64/manifest_data.txt > tmp_manifest_data.txt
+          cat amd64/manifest_data.txt >> tmp_manifest_data.txt
           echo "" >> tmp_manifest_data.txt
 
-          cat amd64/uniq_ids.txt > tmp_uniq_ids.txt
+          cat amd64/uniq_ids.txt >> tmp_uniq_ids.txt
           echo "" >> tmp_uniq_ids.txt
 
           # Append ARM64 files to temp files
           cat arm64/manifest_data.txt >> tmp_manifest_data.txt
           echo "" >> tmp_manifest_data.txt
 
-          cat arm64/uniq_ids.txt > tmp_uniq_ids.txt
+          cat arm64/uniq_ids.txt >> tmp_uniq_ids.txt
           echo "" >> tmp_uniq_ids.txt
 
           # Sort + filter to target files
