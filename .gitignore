@@ -148,4 +148,5 @@ cython_debug/
 .python-version
 
 manifest_data.txt
+uniq_ids.txt
 logs

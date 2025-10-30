@@ -12,6 +12,8 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
+  DIBBER_VERSION: 1.1.4
+  DIBBER_PARALLEL_BUILDS: 8
 
 # Cancel previous builds if a new one is triggered
 concurrency:
@@ -50,19 +52,19 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber
+        run: pip install dibber==$DIBBER_VERSION
 
       - name: Setup buildx builder
         run: |
           docker buildx create --use --bootstrap --name dibber-builder --driver docker-container --driver-opt network=host
 
       - name: Build images
-        run: dibber build --parallel 8
+        run: dibber build --parallel $DIBBER_PARALLEL_BUILDS
 
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
         with:
           name: dibber_manifest_data_amd64
-          path: manifest_data.txt
+          path: "*.txt"
 
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
         with:
@@ -100,19 +102,19 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber
+        run: pip install dibber==$DIBBER_VERSION
 
       - name: Setup buildx builder
         run: |
           docker buildx create --use --bootstrap --name dibber-builder --driver docker-container --driver-opt network=host
 
       - name: Build images
-        run: dibber build --parallel 8
+        run: dibber build --parallel $DIBBER_PARALLEL_BUILDS
 
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
         with:
           name: dibber_manifest_data_arm64
-          path: manifest_data.txt
+          path: "*.txt"
 
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
         with:
@@ -144,7 +146,7 @@ jobs:
           python-version: "3.13"
 
       - name: Install Dibber
-        run: pip install dibber==1.1.3
+        run: pip install dibber==$DIBBER_VERSION
 
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53  # v6.0.0
         with:
@@ -158,11 +160,34 @@ jobs:
 
       - name: Merge manifests
         run: |
+          # Append AMD64 files to temp files
           cat amd64/manifest_data.txt > tmp_manifest_data.txt
           echo "" >> tmp_manifest_data.txt
 
+          cat amd64/uniq_ids.txt > tmp_uniq_ids.txt
+          echo "" >> tmp_uniq_ids.txt
+
+          # Append ARM64 files to temp files
           cat arm64/manifest_data.txt >> tmp_manifest_data.txt
           echo "" >> tmp_manifest_data.txt
 
+          cat arm64/uniq_ids.txt > tmp_uniq_ids.txt
+          echo "" >> tmp_uniq_ids.txt
+
+          # Sort + filter to target files
           cat tmp_manifest_data.txt | sort -u | grep -v '^[[:space:]]*$' > manifest_data.txt
+          cat tmp_uniq_ids.txt | sort -u | grep -v '^[[:space:]]*$' > uniq_ids.txt
+          
+          echo
+          echo "---- Manifest data ----"
+          cat manifest_data.txt
+          
+          echo
+          echo "---- Unique IDs ----"
+          cat uniq_ids.txt
+          
+          echo
+          echo
+          
+          # Run merge
           dibber merge-manifests
