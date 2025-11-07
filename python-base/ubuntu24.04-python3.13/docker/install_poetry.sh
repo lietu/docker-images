@@ -16,4 +16,4 @@ su "${USER}" -c "echo \"export PATH=\\\"${POETRY_HOME}/bin:\\\$PATH\\\"\" > \"${
 su "${USER}" -c ". ${POETRY_HOME}/env; poetry config virtualenvs.in-project false"
 su "${USER}" -c ". ${POETRY_HOME}/env; poetry config virtualenvs.path ${WORKON_HOME}"
 
-cat ${POETRY_HOME}/env;
+cat "${POETRY_HOME}/env"
